@@ -1,3 +1,4 @@
+import { Containner } from "@/components/Containner";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 export default function DefaultLayout({
@@ -8,7 +9,9 @@ export default function DefaultLayout({
   return (
     <div>
       <Header />
-      <main>{children}</main>
+      <Containner>
+        <main>{children}</main>
+      </Containner>
       <Footer />
     </div>
   );

@@ -17,7 +17,7 @@ export default function HomePage() {
     }
   return (
     <div>
-      <Button onClick={handleLogout}>Logout</Button>
+      <Button onClick={handleLogout}>Create new</Button>
     </div>
   );
 }

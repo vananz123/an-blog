@@ -6,7 +6,6 @@ export function getAuthFromLS() {
   if (typeof window === "undefined") {
     return defaultToken;
   }
-
   const store = localStorage.getItem("auth-store");
   if (!store) {
     return defaultToken;
@@ -29,7 +28,6 @@ export function setAuthToLS(authType: AuthType, auth: string) {
   if (!store) {
     return;
   }
-
   const parsedStore = JSON.parse(store);
   parsedStore.state[authType] = auth;
   localStorage.setItem("auth-store", JSON.stringify(parsedStore));
