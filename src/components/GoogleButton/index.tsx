@@ -1,14 +1,12 @@
 "use client";
-import { Button, ButtonProps } from "@/components/ui/button";
-import { GoogleLogin , useGoogleLogin ,useGoogleOneTapLogin } from "@react-oauth/google";
-import { useLogin, useLoginGoogle } from "@/services/server/auth/mutation";
+import {  ButtonProps } from "@/components/ui/button";
+import { GoogleLogin } from "@react-oauth/google";
+import {  useLoginGoogle } from "@/services/server/auth/mutation";
 import { gapi } from "gapi-script";
 import { useEffect } from "react";
 import useAuthStore from "@/services/client/useAuthStore";
 import { useRouter } from "next/navigation";
 import { UserInfo } from "@/services/client/type";
-import { setAuthToLS } from "@/lib/auth";
-import http from "@/lib/axios";
 
 interface GoogleButtonProps {
   children: React.ReactNode;
@@ -63,7 +61,7 @@ const GoogleButton = ({
     if (window !== undefined) {
       gapi.load("client:auth2", start);
     }
-  }, []);
+  }, [clientId]);
 
   return (
     <div>

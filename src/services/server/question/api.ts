@@ -1,5 +1,5 @@
 import http from "@/lib/axios";
-import { AuthResponse } from "./type";
+import { AuthResponse } from "../auth/type";
 import SuccessResponse from "@/types/success.response.type";
 import { SignUpType } from "@/types/sign-up.type";
 export const signUpApiRequest = (user: SignUpType) => {
