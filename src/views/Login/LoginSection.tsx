@@ -1,7 +1,6 @@
-"use client";
+"use client"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useImmer } from "use-immer";
 import LoginSchema, { LoginType } from "@/types/login.type";
 import { useRouter } from 'next/navigation'
 //build
@@ -21,7 +20,7 @@ import useAuthStore from "@/services/client/useAuthStore";
 import GoogleButton from "@/components/GoogleButton";
 import { MessageCircle } from "lucide-react";
 import { User } from "@/services/server/auth/type";
-export default function LoginPage() {
+export default function LoginSection() {
   const login = useLogin();
   const router = useRouter()
   const { setAccessToken, setClientId, setRefreshToken  ,setUserInfo} = useAuthStore();
@@ -31,8 +30,6 @@ export default function LoginPage() {
       email: "",
     },
   });
-
-  // 2. Define a submit handler.
   function onSubmit(values: LoginType) {
     login
       .mutateAsync({ email: values.email, password: values.password })
@@ -45,12 +42,8 @@ export default function LoginPage() {
         router.push('/blog')
       })
       .catch((error) => console.log(error));
-
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
-  const [test, setTest] = useImmer("This is login");
   return (
     <div className="flex justify-center items-center w-full">
       <div className="w-[500px] mt-20">
@@ -90,10 +83,9 @@ export default function LoginPage() {
             <Button className="block w-full" type="submit">
               Login
             </Button>
-           
           </form>
         </Form>
-        <GoogleButton> <MessageCircle/> </GoogleButton>
+        <GoogleButton/>
       </div>
     </div>
   );

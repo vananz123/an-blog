@@ -1,8 +1,4 @@
-
-import Login from "@/views/Login"
-export default function LoginPage(){
-    return (
-    <Login/>
-
-    )
+import LoginSection from "@/views/Login/LoginSection";
+export default function Login() {
+  return <LoginSection />;
 }

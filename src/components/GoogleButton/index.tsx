@@ -1,5 +1,4 @@
-"use client";
-import {  ButtonProps } from "@/components/ui/button";
+"use client"
 import { GoogleLogin } from "@react-oauth/google";
 import {  useLoginGoogle } from "@/services/server/auth/mutation";
 import { gapi } from "gapi-script";
@@ -7,20 +6,7 @@ import { useEffect } from "react";
 import useAuthStore from "@/services/client/useAuthStore";
 import { useRouter } from "next/navigation";
 import { UserInfo } from "@/services/client/type";
-
-interface GoogleButtonProps {
-  children: React.ReactNode;
-  className?: string;
-  variant?: ButtonProps["variant"];
-  onSuccessfulLogin?: () => void;
-}
-
-const GoogleButton = ({
-  children,
-  className,
-  variant = "ghost",
-  onSuccessfulLogin,
-}: GoogleButtonProps) => {
+const GoogleButton = () => {
   const router = useRouter()
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
   const { setAccessToken, setRefreshToken, setClientId , setUserInfo } = useAuthStore();
@@ -51,17 +37,17 @@ const GoogleButton = ({
   //     return;
   //   },
   // });
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: clientId,
-        scope: "",
-      });
-    }
-    if (window !== undefined) {
-      gapi.load("client:auth2", start);
-    }
-  }, [clientId]);
+  // useEffect(() => {
+  //   function start() {
+  //     gapi.client.init({
+  //       clientId: clientId,
+  //       scope: "",
+  //     });
+  //   }
+  //   if (window !== undefined) {
+  //     gapi.load("client:auth2", start);
+  //   }
+  // }, [clientId]);
 
   return (
     <div>
