@@ -6,5 +6,8 @@ module.exports = {
         hostname: "dfarjcwyx2ukb.cloudfront.net",
       },
     ],
-  }
+  },
+  httpAgentOptions: {
+    keepAlive: false,
+  },
 };
