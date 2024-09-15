@@ -1,11 +1,14 @@
+import { UserInfo } from "@/services/client/type";
+
 export const localStorageEventTarget = new EventTarget();
 
 export function getAuthFromLS() {
-  const defaultToken = { accessToken: "", refreshToken: "", clientId:"" };
+  const defaultToken = { accessToken: "", refreshToken: "", clientId: "" };
 
   if (typeof window === "undefined") {
     return defaultToken;
   }
+  
   const store = localStorage.getItem("auth-store");
   if (!store) {
     return defaultToken;
@@ -13,13 +16,13 @@ export function getAuthFromLS() {
 
   const parsedStore = JSON.parse(store);
   return {
-    accessToken: parsedStore.state.accessToken || "",
-    refreshToken: parsedStore.state.refreshToken || "",
-    clientId:parsedStore.state.clientId || "",
+    accessToken: parsedStore.state.accessToken as string,
+    refreshToken: parsedStore.state.refreshToken as string,
+    clientId: parsedStore.state.clientId as string,
   };
 }
-type AuthType = 'accessToken' | "refreshToken" | 'clientId'
-export function setAuthToLS(authType: AuthType, auth: string) {
+type AuthType = "accessToken" | "refreshToken" | "clientId" | "userInfo";
+export function setAuthToLS(authType: AuthType, auth: string | UserInfo) {
   if (typeof window === "undefined") {
     return;
   }

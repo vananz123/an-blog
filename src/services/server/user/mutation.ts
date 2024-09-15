@@ -1,14 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
-import { loginApiRequest, logoutApiRequest } from "./api";
+import { followRequest , bookmartBlogRequest, updateProfileApiRequest} from "./api";
 
-export function useLogin() {
+export function useFollow() {
   return useMutation({
-    mutationFn: loginApiRequest,
+    mutationFn: followRequest,
   });
 }
-
-export function useLogout() {
+export function useUpdateProfile() {
   return useMutation({
-    mutationFn: logoutApiRequest,
+    mutationFn: updateProfileApiRequest,
   });
+}
+export function useBookmarkBlog(){
+  return useMutation({
+    mutationFn:bookmartBlogRequest,
+  })
 }

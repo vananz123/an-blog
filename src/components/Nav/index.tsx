@@ -15,8 +15,8 @@ import Link from "next/link";
 export function Nav() {
   return (
     <NavigationMenu>
-      <NavigationMenuList>
-        {Array.from({ length: 2 }).map((e, index) => (
+      <NavigationMenuList defaultValue={'blog'}>
+        {/* {Array.from({ length: 2 }).map((e, index) => (
           <NavigationMenuItem key={index}>
             <NavigationMenuTrigger>Introduct</NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -42,8 +42,13 @@ export function Nav() {
               <NavigationMenuLink asChild>Link</NavigationMenuLink>
             </NavigationMenuContent>
           </NavigationMenuItem>
-        ))}
-        <NavigationMenuItem>
+        ))} */}
+        <NavigationMenuItem value="blog">
+          <Link href="/blog" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>Blog</NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem value="question">
           <Link href="/question" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>Question</NavigationMenuLink>
           </Link>

@@ -18,10 +18,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { useLogin } from "@/services/server/auth/mutation";
 import useAuthStore from "@/services/client/useAuthStore";
+import GoogleButton from "@/components/GoogleButton";
+import { MessageCircle } from "lucide-react";
+import { User } from "@/services/server/auth/type";
 export default function LoginPage() {
   const login = useLogin();
   const router = useRouter()
-  const { setAccessToken, setClientId, setRefreshToken } = useAuthStore();
+  const { setAccessToken, setClientId, setRefreshToken  ,setUserInfo} = useAuthStore();
   const form = useForm<LoginType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -34,10 +37,12 @@ export default function LoginPage() {
     login
       .mutateAsync({ email: values.email, password: values.password })
       .then((data) => {
+        const userInfo = data.data.metadata.user as User
+        setUserInfo(userInfo)
         setAccessToken(data.data.metadata.tokens.accessToken);
         setRefreshToken(data.data.metadata.tokens.refreshToken);
         setClientId(data.data.metadata.user._id);
-        router.push('/')
+        router.push('/blog')
       })
       .catch((error) => console.log(error));
 
@@ -85,9 +90,11 @@ export default function LoginPage() {
             <Button className="block w-full" type="submit">
               Login
             </Button>
+           
           </form>
         </Form>
+        <GoogleButton> <MessageCircle/> </GoogleButton>
       </div>
     </div>
   );
-}
+} 

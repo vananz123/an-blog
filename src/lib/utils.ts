@@ -26,7 +26,7 @@ export function isAxiosExpiredTokenError<ExpireTokenError>(
 ): error is AxiosError<ExpireTokenError> {
   return (
     isAxiosBadRequestError<ErrorEvent>(error) &&
-    error.response?.data.error.message === "Token expired"
+    error.response?.data.error.message === "invalid signature"
   );
 }
 
