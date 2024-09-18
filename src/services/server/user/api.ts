@@ -1,6 +1,6 @@
 import http from "@/lib/axios";
 import { AuthResponse, GetPostsForMeRequest } from "./type";
-import SuccessResponse from "@/types/success.response.type";
+import SuccessResponse, { Pagination } from "@/types/success.response.type";
 import { BlogResult, QuestionResulf } from "../post/type";
 import { User } from "../auth/type";
 
@@ -64,14 +64,14 @@ export const getPostsRequest = async ({
     offset: offset,
   };
   if (postType && postType == "question") {
-    return await http.get<SuccessResponse<QuestionResulf[]>>(
+    return await http.get<SuccessResponse<Pagination<QuestionResulf>>>(
       `/v1/api/me/posts`,
       {
         params: params,
       }
     );
   }
-  return await http.get<SuccessResponse<BlogResult[]>>(`/v1/api/me/posts`, {
+  return await http.get<SuccessResponse<Pagination<BlogResult>>>(`/v1/api/me/posts`, {
     params: params,
   });
 };
@@ -89,17 +89,38 @@ export const getPostBookmarksRequest = async ({
     offset: offset,
   };
   if (postType && postType == "question") {
-    return await http.get<SuccessResponse<QuestionResulf[]>>(
+    return await http.get<SuccessResponse<Pagination<QuestionResulf>>>(
       `/v1/api/me/post/bookmarks`,
       {
         params: params,
       }
     );
   }
-  return await http.get<SuccessResponse<BlogResult[]>>(
+  return await http.get<SuccessResponse<Pagination<BlogResult>>>(
     `/v1/api/me/post/bookmarks`,
     {
       params: params,
     }
   );
 };
+
+export const getAuthorsRequest = async ({
+  userId,
+  search,
+  limit = 10,
+  offset = 1,
+}: {search?:String; userId?:string,limit?:number,offset?:number}) => {
+  const params = {
+    userId: userId,
+    search:search,
+    limit: limit,
+    offset: offset,
+  };
+  return await http.get<SuccessResponse<Pagination<User>>>(
+    `/v1/api/author`,
+    {
+      params: params,
+    }
+  );
+};
+

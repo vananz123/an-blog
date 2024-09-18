@@ -6,5 +6,7 @@ module.exports = {
         hostname: "dfarjcwyx2ukb.cloudfront.net",
       },
     ],
-  }
+  },experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 };

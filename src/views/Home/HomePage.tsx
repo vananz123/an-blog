@@ -1,9 +1,7 @@
 "use client"
-import { Button } from "@/components/ui/button";
 import useAuthStore from "@/services/client/useAuthStore";
 import { useLogout } from "@/services/server/auth/mutation";
 import { useRouter } from "next/navigation";
-
 export default function HomePage() {
     const router = useRouter()
     const logout = useLogout()
@@ -17,7 +15,10 @@ export default function HomePage() {
     }
   return (
     <div>
-      <Button onClick={handleLogout}>Create new</Button>
+      <p>BLog lastest</p>
+      <div>
+        
+      </div>
     </div>
   );
 }

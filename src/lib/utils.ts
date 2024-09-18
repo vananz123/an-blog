@@ -1,11 +1,11 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 import { AxiosError, HttpStatusCode, isAxiosError } from "axios";
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 export function isAxiosBadRequestError<BadRequestError>(
-  error: unknown,
+  error: unknown
 ): error is AxiosError<BadRequestError> {
   return (
     isAxiosError(error) && error.response?.status === HttpStatusCode.BadRequest
@@ -13,7 +13,7 @@ export function isAxiosBadRequestError<BadRequestError>(
 }
 
 export function isAxiosUnauthoriedError<UnauthoriedError>(
-  error: unknown,
+  error: unknown
 ): error is AxiosError<UnauthoriedError> {
   return (
     isAxiosError(error) &&
@@ -22,7 +22,7 @@ export function isAxiosUnauthoriedError<UnauthoriedError>(
 }
 
 export function isAxiosExpiredTokenError<ExpireTokenError>(
-  error: unknown,
+  error: unknown
 ): error is AxiosError<ExpireTokenError> {
   return (
     isAxiosBadRequestError<ErrorEvent>(error) &&
@@ -59,3 +59,4 @@ export function checkPaymentMethodReturnLogo(type: string) {
 //   const text = `Summary: ${data.Summary}\n\nKeypoints:\n${data.Keypoints.map((point) => `- ${point}`).join("\n")}\n`;
 //   return text;
 // }
+

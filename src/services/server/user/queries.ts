@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { GetPostsForMeRequest } from "./type";
-import { getPostsRequest, getPostBookmarksRequest, getProfileBuSlugRequest } from "./api";
+import { getPostsRequest, getPostBookmarksRequest, getProfileBuSlugRequest, getAuthorsRequest } from "./api";
 
 export function useProfileBySlug(slug: string , userId?:string) {
   return useQuery({
@@ -31,5 +31,14 @@ export function usePostBookmarkForMe(query: GetPostsForMeRequest) {
         return e.data;
       }),
       enabled:query.userId != ""
+  });
+}
+export function useGetAuthors(query: {userId?:string,limit?:number,offset?:number}) {
+  return useQuery({
+    queryKey: ["authors", query],
+    queryFn: () =>
+      getAuthorsRequest(query).then((e) => {
+        return e.data;
+      })
   });
 }

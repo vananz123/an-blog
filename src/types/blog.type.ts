@@ -12,7 +12,8 @@ const BlogSchema = z.object({
       return new Error("Chỉ hỗ trợ file ảnh JPEG và PNG");
     return true;
   }, "File không hợp lệ"),
-  blog_tag: z.any()
+  blog_tag: z.any(),
+  photo:z.any()
 });
 export default BlogSchema;
 export type BlogType = z.infer<typeof BlogSchema>;

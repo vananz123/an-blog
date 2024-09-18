@@ -19,6 +19,8 @@ import { useUploadImage } from "@/services/server/upload/mutation";
 import { useUpdateProfile } from "@/services/server/user/mutation";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useImmer } from "use-immer";
 interface Props {
@@ -66,6 +68,12 @@ function FormUpdateProfile({
 
 function InfoAndInviSection() {
   const { userInfo, clientId } = useAuthStore();
+  const router = useRouter();
+  useEffect(() => {
+    if (clientId === "") {
+      router.push("/login");
+    }
+  });
   const profile = useUpdateProfile();
   const [imageUrl, setImageUrl] = useImmer<string>("");
   function onSubmit(values: any) {
@@ -153,6 +161,7 @@ function InfoAndInviSection() {
                 type="file"
                 onChange={(value) => {
                   const file = value.target.files;
+                  console.log(file)
                   if (file && file.length > 0) {
                     uploadImage
                       .mutateAsync(file[0])

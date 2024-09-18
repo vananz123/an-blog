@@ -18,6 +18,8 @@ function BlogEditSection() {
   function onSubmit(values: BlogType) {
     console.log(values);
     if (values && blog) {
+      console.log(values)
+      values.blog_thumb = values.photo
       const tag = [values.blog_tag] || []
       updatePost
         .mutateAsync({
@@ -45,9 +47,10 @@ function BlogEditSection() {
       {blog && (
         <BlogForm
           data={{
+            blog_tag:blog.blog_tag,
             blog_title: blog.blog_title,
             blog_body: blog.blog_body,
-            blog_thumb: blog.blog_thumb,
+            photo: blog.blog_thumb,
           }}
           submit={onSubmit}
         />

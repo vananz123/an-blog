@@ -17,10 +17,10 @@ export interface NewQuestion {
 }
 export interface GetBlog {
   search?: string;
-  limit?: number;
-  offset?: number;
+  limit: number;
+  offset: number;
 }
-export interface BlogResult {
+export interface BlogResult extends Timestamps{
   _id: string;
   blog_title: string;
   blog_tag: string[];
@@ -29,13 +29,14 @@ export interface BlogResult {
   blog_thumb: string;
   blog_userId: User;
   blog_bookmark: number;
-  blog_heart: number;
+  blog_heart: [];
+  blog_heart_count:number;
   blog_heart_check:boolean;
   blog_reader: number;
   blog_comment:number;
   blog_bookmark_check:boolean;
 }
-export interface QuestionResulf {
+export interface QuestionResulf extends Timestamps {
   _id: string;
   question_content:string;
   question_tag: string[];
@@ -44,9 +45,8 @@ export interface QuestionResulf {
   question_userId: User;
   question_heart: number;
   question_reader: number;
-  created_at: string;
-  updated_at: string;
 }
 import SuccessResponse from "@/types/success.response.type";
 import { User } from "../auth/type";
+import Timestamps from "@/types/timestamps.type";
 export type PostResponse = SuccessResponse<BlogResult>;

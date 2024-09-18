@@ -7,7 +7,7 @@ import {
   NewQuestion,
   QuestionResulf,
 } from "./type";
-import SuccessResponse from "@/types/success.response.type";
+import SuccessResponse, { Pagination } from "@/types/success.response.type";
 import { BlogType } from "@/types/blog.type";
 import { QuestionType } from "@/types/question.type";
 import { QueriesResults } from "@tanstack/react-query";
@@ -51,7 +51,7 @@ export const getAllBlogRequest = ({ search, limit, offset }: GetBlog) => {
     limit: limit,
     offset: offset,
   };
-  return http.get<SuccessResponse<BlogResult[]>>("/v1/api/blog", {
+  return http.get<SuccessResponse<Pagination<BlogResult>>>("/v1/api/blog", {
     params,
   });
 };
@@ -115,7 +115,7 @@ export const getAllQuestionRequest = ({ search, limit, offset }: GetBlog) => {
     limit: limit,
     offset: offset,
   };
-  return http.get<SuccessResponse<QuestionResulf[]>>("/v1/api/question", {
+  return http.get<SuccessResponse<Pagination<QuestionResulf>>>("/v1/api/question", {
     params,
   });
 };

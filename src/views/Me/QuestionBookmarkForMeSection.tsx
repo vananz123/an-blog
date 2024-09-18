@@ -10,15 +10,15 @@ import useAuthStore from "@/services/client/useAuthStore";
 import { usePostBookmarkForMe } from "@/services/server/user/queries";
 import Image from "next/image";
 import Link from "next/link";
-import { BlogResult } from "@/services/server/post/type";
+import { BlogResult, QuestionResulf } from "@/services/server/post/type";
 import Avatar from "@/components/Avatar";
 import Pagination from "@/components/Pagination";
 import useQueryString from "@/services/client/useQueryString ";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import TimeAgo from "@/components/TimeAgo";
-function BlogBookmarkForMeSection() {
+import { GetPostsForMeRequest } from "@/services/server/user/type";
+function QuestionBookmarkForMeSection() {
   const { clientId } = useAuthStore();
   const router = useRouter()
   useEffect(()=>{
@@ -27,52 +27,46 @@ function BlogBookmarkForMeSection() {
     }
   })
   const { queryParams, updateQueryParams } = useQueryString();
-  const query = {
+  const query: GetPostsForMeRequest = {
     userId:clientId,
+    postType:"question",
     search: queryParams.get("search") || undefined,
     limit: 1,
     offset: Number(queryParams.get("page")) || 1,
   };
   const { data, refetch } = usePostBookmarkForMe(query);
-  const blogs = data?.metadata.results as BlogResult[];
+  const questions = data?.metadata.results as QuestionResulf[];
   const paginated = data?.metadata;
   return (
     <div>
-      {blogs && paginated ? (
-        blogs.length > 0 ? (
+      {questions && paginated ? (
+        questions.length > 0 ? (
           <>
-            {blogs.map((blog) => (
-              <Card key={blog._id} className="mb-3">
+            {questions.map((question) => (
+              <Card key={question._id} className="mb-3">
                 <CardHeader>
-                  <Avatar user={blog.blog_userId}></Avatar>
+                  <Avatar user={question.question_userId}></Avatar>
                 </CardHeader>
                 <CardContent>
                   <div className="h-auto grid grid-cols-3 items-start gap-3">
                     <div className="h-[125px] overflow-hidden text-ellipsis px-2 col-span-2">
-                      <Link href={`/blog/${blog.blog_slug}`}>
+                      <Link href={`/blog/${question.question_slug}`}>
                         <p className="text-[18px] font-bold">
-                          {blog.blog_title}
+                          {question.question_title}
                         </p>
                       </Link>
-                      {blog.blog_tag.map((e: string, index: number) => (
-                        <Badge key={index}>{e}</Badge>
-                      ))}
+                  
                     </div>
                     <div className="">
-                      <Link href={`/blog/${blog.blog_slug}`}>
-                        <Image
-                          className="object-fill h-[125px] rounded"
-                          src={"/test.png"}
-                          alt="test thumbv"
-                          width={200}
-                          height={110}
-                        />
-                      </Link>
+                      
                     </div>
                   </div>
                 </CardContent>
                 <CardFooter>
-                 <TimeAgo timestamp={blog.created_at}/>
+                  <div className="flex gap-4">
+                    <div>2 thangs</div>
+                    <div>4 phut doc</div>
+                  </div>
                 </CardFooter>
               </Card>
             ))}
@@ -100,4 +94,4 @@ function BlogBookmarkForMeSection() {
   );
 }
 
-export default BlogBookmarkForMeSection;
+export default QuestionBookmarkForMeSection;

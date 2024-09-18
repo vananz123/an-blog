@@ -15,6 +15,8 @@ import { useFollow } from "@/services/server/user/mutation";
 import { useBookmarkBlog } from "@/services/server/user/mutation";
 import { useHeartBlog } from "@/services/server/post/mutation";
 import Link from "next/link";
+import TimeAgo from "@/components/TimeAgo";
+import ReadingTime from "@/components/ReadingTime";
 
 const BlogDetailSection = () => {
   const router = useRouter();
@@ -90,7 +92,7 @@ const BlogDetailSection = () => {
                     onClick={() => handleHeart()}
                     className="text-red-500"
                   />{" "}
-                  <p>{post.blog_heart}</p>
+                  <p>{post.blog_heart_count}</p>
                 </div>
               ) : (
                 <div className="flex gap-2 mb-3 cursor-pointer">
@@ -126,18 +128,18 @@ const BlogDetailSection = () => {
                       {" "}
                       <p>{user.usr_name}</p>
                     </Link>
-                    {user._id != clientId && (
+                    {/* {user._id != clientId && (
                       <a
                         className="text-sm text-blue-400 mt-[2px] cursor-pointer"
                         onClick={() => handleFollow()}
                       >
                         Follow
                       </a>
-                    )}
+                    )} */}
                   </div>
                   <div className="text-[14px]">
-                    <span>4 thang truoc</span>
-                    <span> 4 phut doc</span>
+                    <TimeAgo className="mr-2" timestamp={post.created_at}/>
+                    <ReadingTime content={post.blog_body}/>
                   </div>
                 </div>
               </div>
@@ -157,7 +159,7 @@ const BlogDetailSection = () => {
               </div>
             </div>
             <h1 className="text-[31px] font-bold py-8">{post.blog_title}</h1>
-            <div>
+            <div className="not-tailwind">
               <p dangerouslySetInnerHTML={{ __html: post.blog_body }}></p>
             </div>
             <div></div>

@@ -5,7 +5,6 @@ const Question = () => {
   return (
     <LeftSide>
       <div>
-        list Question
         <ListQuestionSection />
       </div>
     </LeftSide>

@@ -14,10 +14,15 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { Search } from "lucide-react";
+import { useImmer } from "use-immer";
+import useQueryString from "@/services/client/useQueryString ";
 export default function Header() {
   const router = useRouter();
   const logout = useLogout();
+  const {queryParams, createQueryParams , deleteQueryParam} = useQueryString()
   const { clearAuth, clientId, userInfo } = useAuthStore();
+  const [searchValue, setSearchValue] = useImmer('')
   const handleLogout = () => {
     logout
       .mutateAsync()
@@ -44,7 +49,7 @@ export default function Header() {
     },
     {
       key: 1,
-      text:(
+      text: (
         <p
           onClick={() => {
             router.push("/setting");
@@ -67,7 +72,8 @@ export default function Header() {
         </p>
       ),
       link: "/me/posts",
-    },{
+    },
+    {
       key: 3,
       text: (
         <p
@@ -100,16 +106,27 @@ export default function Header() {
         <div>Logo</div>
         <Nav />
         <div className="flex gap-6">
-          <Input type="text" placeholder="search" className="max-w-[350px]" />
+          <div className="flex w-full max-w-sm items-center space-x-2">
+            <Input type="text" value={searchValue} onChange={(value)=>{
+              setSearchValue(value.target.value)
+            }} placeholder="Search" />
+            <Button onClick={()=> {
+              if(searchValue){
+                createQueryParams({search:searchValue})
+              }
+            }}> <Search/> </Button>
+          </div>
           {clientId != "" && clientId && userInfo ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Avatar>
-                  <AvatarImage src={
-                        userInfo.usr_avatar != ""
-                          ? userInfo.usr_avatar
-                          : "https://github.com/shadcn.png"
-                      } />
+                  <AvatarImage
+                    src={
+                      userInfo.usr_avatar != ""
+                        ? userInfo.usr_avatar
+                        : "https://github.com/shadcn.png"
+                    }
+                  />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>

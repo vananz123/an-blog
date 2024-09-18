@@ -28,6 +28,8 @@ import {
   FontColor,
   EditorConfig,
   FileRepository,
+  ImageToolbar,
+  ImageResize,
 } from "ckeditor5";
 import "ckeditor5/ckeditor5.css";
 import CustomUploadAdapterPlugin from "./UploadAdapte";
@@ -88,9 +90,58 @@ export const editorConfiguration: EditorConfig = {
     TextTransformation,
     Undo,
     CodeBlock,
+    ImageToolbar,
+    ImageResize,
   ],
   table: {
     contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+  },
+  image: {
+    // styles: [
+    //   {
+    //     name: "alignLeft",
+    //     title: "Align left",
+    //     icon: "left",
+    //     className: "image-align-left",
+    //   },
+    //   {
+    //     name: "alignCenter",
+    //     title: "Align center",
+    //     icon: "center",
+    //     className: "image-align-center",
+    //   },
+    //   {
+    //     name: "alignRight",
+    //     title: "Align right",
+    //     icon: "right",
+    //     className: "image-align-right",
+    //   },
+    // ],
+    toolbar: [
+      "imageStyle:alignLeft",
+      "imageStyle:alignCenter",
+      "imageStyle:alignRight",
+      "|",
+      "imageTextAlternative",
+    ],
+    // resizeOptions: [
+    //   {
+    //     name: "resizeImage:original",
+    //     label: "Original size",
+    //     value: null,
+    //   },
+    //   {
+    //     name: "resizeImage:50",
+    //     label: "50%",
+    //     value: "50",
+    //   },
+    //   {
+    //     name: "resizeImage:75",
+    //     label: "75%",
+    //     value: "75",
+    //   },
+    // ],
+    // resizeUnit: "%",
   },
   codeBlock: {
     languages: [
@@ -138,7 +189,8 @@ export const editorConfigurationForComment: EditorConfig = {
     Image,
     ImageCaption,
     ImageStyle,
-    Indent, Paragraph,
+    Indent,
+    Paragraph,
     Italic,
     Link,
     List,

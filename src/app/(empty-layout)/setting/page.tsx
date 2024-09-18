@@ -37,7 +37,7 @@ export default function Setting() {
         </section>
       </Containner>
       <div
-        className="absolute top-5 right-5"
+        className="absolute top-5 right-5 cursor-pointer"
         onClick={() => {
           router.back();
         }}

@@ -105,7 +105,7 @@ function ProfilePublicSection() {
       ) : (
         <div>loading</div>
       )}
-      <Separator className="my-3" />
+      {/* <Separator className="my-3" />
       <Tabs defaultValue="account" className="w-[400px]">
         <TabsList>
           {ListTabs.map((e) => (
@@ -119,7 +119,7 @@ function ProfilePublicSection() {
             {e.content}
           </TabsContent>
         ))}
-      </Tabs>
+      </Tabs> */}
     </section>
   );
 }

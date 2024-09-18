@@ -15,7 +15,7 @@ import Link from "next/link";
 export function Nav() {
   return (
     <NavigationMenu>
-      <NavigationMenuList defaultValue={'blog'}>
+      <NavigationMenuList>
         {/* {Array.from({ length: 2 }).map((e, index) => (
           <NavigationMenuItem key={index}>
             <NavigationMenuTrigger>Introduct</NavigationMenuTrigger>

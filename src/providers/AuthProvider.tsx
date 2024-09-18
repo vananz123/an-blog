@@ -1,9 +1,10 @@
 
 import useAuthStore from "@/services/client/useAuthStore";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 
 function AuthProvider({children}:{children:ReactNode}) {
-    const {clientId} = useAuthStore()
+    const {clientId , isLoaded} = useAuthStore()
+    if(isLoaded) return <div>Loading</div>
     return (clientId && clientId !== "") ? children : '';
 }
 

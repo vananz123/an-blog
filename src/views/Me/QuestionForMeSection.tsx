@@ -24,14 +24,34 @@ import {
 import Link from "next/link";
 import { useImmer } from "use-immer";
 import { QuestionResulf } from "@/services/server/post/type";
+import { GetPostsForMeRequest } from "@/services/server/user/type";
+import useQueryString from "@/services/client/useQueryString ";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Pagination from "@/components/Pagination";
+import { Skeleton } from "@/components/ui/skeleton";
 function QuestionForMeSection() {
   const { clientId } = useAuthStore();
-  const { data, refetch } = usePostsForMe({ userId: clientId ,postType:"question"});
-  const questons = data?.metadata as QuestionResulf[];
-  console.log(questons)
+  const router = useRouter()
+  useEffect(()=>{
+    if(clientId == '') {
+      router.push('/login')
+    }
+  })
+  const { queryParams, updateQueryParams } = useQueryString();
+  const query: GetPostsForMeRequest = {
+    userId:clientId,
+    postType:"question",
+    search: queryParams.get("search") || undefined,
+    limit: 1,
+    offset: Number(queryParams.get("page")) || 1,
+  };
+  const { data, refetch } = usePostsForMe(query);
+  const questons = data?.metadata.results as QuestionResulf[];
+  const paginated = data?.metadata;
   return (
     <div>
-      {questons ? (
+      {questons && paginated ?  (
         <>
           {questons.length > 0 ? (
             <>
@@ -118,13 +138,24 @@ function QuestionForMeSection() {
                   </CardFooter>
                 </Card>
               ))}
+              <Pagination
+              currentPage={query.offset}
+              total={paginated.totalPages}
+              onPage={(page: number) => {
+                updateQueryParams({ page: page.toString() });
+              }}
+            />
             </>
           ) : (
-            <div>not</div>
+            <div>No the question</div>
           )}{" "}
         </>
       ) : (
-        <div>loading</div>
+        <>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <Skeleton key={index} className="w-full h-[200px] mb-3" />
+          ))}
+        </>
       )}
     </div>
   );

@@ -17,8 +17,8 @@ export interface PagingRequest {
     offset:number;
 }
 type PostType = "question" | "blog"
-export interface GetPostsForMeRequest  extends PagingRequest{
-    userId: string;
+export interface GetPostsByUserSlugRequest  extends PagingRequest{
+    slug?: string;
     search?:string;
     postType?:PostType;
 }

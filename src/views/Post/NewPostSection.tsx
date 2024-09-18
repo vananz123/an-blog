@@ -1,11 +1,7 @@
 "use client";
 import { BlogType } from "@/types/blog.type";
-import dynamic from "next/dynamic";
-import { useImmer } from "use-immer";
-import Image from "next/image";
 import { useNewBlog } from "@/services/server/post/mutation";
 import useAuthStore from "@/services/client/useAuthStore";
-import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import BlogForm from "@/components/BlogForm";
 import { useRouter } from "next/navigation";
@@ -14,7 +10,6 @@ export const NewPostSection = () => {
   const { toast } = useToast();
   const newPost = useNewBlog();
   const { clientId } = useAuthStore();
-  const [imageUrl, setImageUrl] = useImmer<string>("");
   function onSubmit(values: BlogType) {
     console.log(values);
     if (values) {
@@ -24,7 +19,7 @@ export const NewPostSection = () => {
             blog_userId: clientId,
             blog_body: values.blog_body,
             blog_title: values.blog_title,
-            blog_thumb: "",
+            blog_thumb: values.photo || "",
             blog_tag:[values.blog_tag] || []
           },
         })
