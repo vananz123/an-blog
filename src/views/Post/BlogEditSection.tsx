@@ -46,6 +46,7 @@ function BlogEditSection() {
       <p>edit</p>
       {blog && (
         <BlogForm
+        isLoading={updatePost.isPending}
           data={{
             blog_tag:blog.blog_tag,
             blog_title: blog.blog_title,

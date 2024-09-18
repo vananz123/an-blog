@@ -18,6 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { GetPostsForMeRequest } from "@/services/server/user/type";
+import { LIMIT } from "@/constants/constants";
 function QuestionBookmarkForMeSection() {
   const { clientId } = useAuthStore();
   const router = useRouter()
@@ -31,7 +32,7 @@ function QuestionBookmarkForMeSection() {
     userId:clientId,
     postType:"question",
     search: queryParams.get("search") || undefined,
-    limit: 1,
+    limit: LIMIT.TEN,
     offset: Number(queryParams.get("page")) || 1,
   };
   const { data, refetch } = usePostBookmarkForMe(query);

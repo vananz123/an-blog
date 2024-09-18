@@ -45,6 +45,7 @@ export const deleteBlogRequest = ({
   };
   return http.delete<SuccessResponse<any>>("/v1/api/blog", { params });
 };
+
 export const getAllBlogRequest = ({ search, limit, offset }: GetBlog) => {
   const params = {
     search: search,

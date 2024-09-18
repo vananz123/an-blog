@@ -25,12 +25,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useUploadImage } from "@/services/server/upload/mutation";
+import { POST_TAG } from "@/constants/constants";
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
 interface Props {
+  isLoading?: boolean;
   data?: BlogType;
   submit: (values: BlogType) => void;
 }
-export default function BlogForm({ data, submit }: Props) {
+export default function BlogForm({ isLoading = false, data, submit }: Props) {
   const form = useForm<BlogType>({
     resolver: zodResolver(BlogSchema),
     values: data,
@@ -81,7 +83,7 @@ export default function BlogForm({ data, submit }: Props) {
                 .mutateAsync(file[0])
                 .then((data) => {
                   console.log(data);
-                  form.setValue('photo',data.metadata.url )
+                  form.setValue("photo", data.metadata.url);
                 })
                 .catch((error) => {
                   console.log(error);
@@ -112,11 +114,7 @@ export default function BlogForm({ data, submit }: Props) {
                 <FormItem>
                   <FormLabel>Thumbail</FormLabel>
                   <FormControl>
-                    <Input
-                   
-                      type="file"
-                      {...register("blog_thumb")}
-                    />
+                    <Input type="file" {...register("blog_thumb")} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -131,22 +129,22 @@ export default function BlogForm({ data, submit }: Props) {
                 <FormLabel>Tag</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={data?.blog_tag ? field.value[0] : field.value}
+                  defaultValue={data?.blog_tag && data.blog_tag[0]}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a verified email to display" />
+                      <SelectValue placeholder="Select a tag to display" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Front-end">Front-end</SelectItem>
-                    <SelectItem value="Ubuntu">Ubuntu</SelectItem>
-                    <SelectItem value="Javascript">Javascript</SelectItem>
+                    {POST_TAG.map((e) => (
+                      <SelectItem key={e.id} value={e.value}>
+                        {e.text}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
-                <FormDescription>
-                  You can manage email addresses in your
-                </FormDescription>
+                <FormDescription>You can add tag for your blog</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -163,8 +161,15 @@ export default function BlogForm({ data, submit }: Props) {
               </FormItem>
             )}
           />
-          <Button className="block" type="submit">
-            Publish
+          <Button type="submit" disabled={isLoading}>
+            {isLoading == true ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Loading
+              </>
+            ) : (
+              "Publish"
+            )}
           </Button>
         </form>
       </Form>

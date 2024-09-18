@@ -6,17 +6,20 @@ import useAuthStore from "@/services/client/useAuthStore";
 import { useNewQuestion } from "@/services/server/post/mutation";
 import { AxiosError } from "axios";
 import ErrorResponse from "@/types/error.response.type";
+import { useRouter } from "next/navigation";
 export const NewQuestionSection = () => {
+  const router = useRouter()
   const {clientId}= useAuthStore()
   const newQuestion = useNewQuestion()
   function onSubmit(values: QuestionType) {
     if(clientId && values){
+      const tag = [values.question_tag] || []
       newQuestion.mutateAsync({
         payload:{
           question_content:values.question_content,
           question_title:values.question_title,
           question_userId:clientId,
-          question_tag:[values.question_tag]
+          question_tag:tag
         }
       }).then((data)=> {
         toast({
@@ -27,6 +30,7 @@ export const NewQuestionSection = () => {
             </pre>
           ),
         });
+        router.push('/me/posts')
       }).catch((error:AxiosError<ErrorResponse<string>>)=> {
         toast({
           title: "You submitted the following values:",
@@ -41,7 +45,7 @@ export const NewQuestionSection = () => {
   }
   return (
     <div>
-      <QuestionForm submit={onSubmit}/>
+      <QuestionForm isLoading={newQuestion.isPending} submit={onSubmit}/>
     </div>
   );
 };

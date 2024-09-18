@@ -30,6 +30,11 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Pagination from "@/components/Pagination";
 import { Skeleton } from "@/components/ui/skeleton";
+import { LIMIT } from "@/constants/constants";
+import { useDeleteQuestion } from "@/services/server/post/mutation";
+import { AxiosError } from "axios";
+import ErrorResponse from "@/types/error.response.type";
+import { useToast } from "@/components/ui/use-toast";
 function QuestionForMeSection() {
   const { clientId } = useAuthStore();
   const router = useRouter()
@@ -43,12 +48,15 @@ function QuestionForMeSection() {
     userId:clientId,
     postType:"question",
     search: queryParams.get("search") || undefined,
-    limit: 1,
+    limit: LIMIT.TEN,
     offset: Number(queryParams.get("page")) || 1,
   };
   const { data, refetch } = usePostsForMe(query);
   const questons = data?.metadata.results as QuestionResulf[];
   const paginated = data?.metadata;
+
+  const delQuestion = useDeleteQuestion()
+  const {toast} = useToast()
   return (
     <div>
       {questons && paginated ?  (
@@ -68,39 +76,39 @@ function QuestionForMeSection() {
                         <DropdownMenuItem>Edit</DropdownMenuItem>
                       </Link>
                           <DropdownMenuItem
-                            // onClick={() => {
-                            //   if (clientId && post) {
-                            //     delBlog
-                            //       .mutateAsync({
-                            //         userId: clientId,
-                            //         blogId: post._id,
-                            //       })
-                            //       .then((data) => {
-                            //         refetch();
-                            //       })
-                            //       .catch(
-                            //         (
-                            //           error: AxiosError<ErrorResponse<string>>
-                            //         ) => {
-                            //           toast({
-                            //             title:
-                            //               "You submitted the following values:",
-                            //             description: (
-                            //               <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                            //                 <code className="text-white">
-                            //                   {JSON.stringify(
-                            //                     error.response?.data.message,
-                            //                     null,
-                            //                     2
-                            //                   )}
-                            //                 </code>
-                            //               </pre>
-                            //             ),
-                            //           });
-                            //         }
-                            //       );
-                            //   }
-                            // }}
+                            onClick={() => {
+                              if (clientId && questons) {
+                                delQuestion
+                                  .mutateAsync({
+                                    userId: clientId,
+                                    questionId: e._id,
+                                  })
+                                  .then((data) => {
+                                    refetch();
+                                  })
+                                  .catch(
+                                    (
+                                      error: AxiosError<ErrorResponse<string>>
+                                    ) => {
+                                      toast({
+                                        title:
+                                          "You submitted the following values:",
+                                        description: (
+                                          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                                            <code className="text-white">
+                                              {JSON.stringify(
+                                                error.response?.data.message,
+                                                null,
+                                                2
+                                              )}
+                                            </code>
+                                          </pre>
+                                        ),
+                                      });
+                                    }
+                                  );
+                              }
+                            }}
                           >
                             Delete
                           </DropdownMenuItem>

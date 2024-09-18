@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { QuestionType } from "@/types/question.type";
 import { toast } from "@/components/ui/use-toast";
 import QuestionForm from "@/components/QuestionForm";
@@ -14,12 +14,13 @@ import { useGetQuestionById } from "@/services/server/post/queries";
 function QuestionEditSection() {
   const { clientId } = useAuthStore();
   const { id } = useParams();
-  const {data ,refetch} = useGetQuestionById(id as string)
-  const question = data?.metadata
-  console.log(question)
+  const { data, refetch } = useGetQuestionById(id as string);
+  const question = data?.metadata;
+  console.log(question);
   const updateQuestion = useUpdateQuestion();
   function onSubmit(values: QuestionType) {
     if (clientId && values && question) {
+      const tag = [values.question_tag] || [];
       updateQuestion
         .mutateAsync({
           userId: clientId,
@@ -27,11 +28,11 @@ function QuestionEditSection() {
           payload: {
             question_content: values.question_content,
             question_title: values.question_title,
-            question_tag: [values.question_tag],
+            question_tag: tag,
           },
         })
         .then((data) => {
-          refetch()
+          refetch();
           toast({
             title: "You submitted the following values:",
             description: (
@@ -58,9 +59,7 @@ function QuestionEditSection() {
     }
   }
   return (
-    <div>
-     {question && ( <QuestionForm data={question} submit={onSubmit} />)}
-    </div>
+    <div>{question && <QuestionForm isLoading={updateQuestion.isPending} data={question} submit={onSubmit} />}</div>
   );
 }
 

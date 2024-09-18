@@ -39,9 +39,9 @@ export const NewPostSection = () => {
     }
   }
   return (
-    <div className=" w-full">
+    <div className="w-full">
       <div className="">
-        <BlogForm submit={onSubmit} />
+        <BlogForm isLoading={newPost.isPending} submit={onSubmit} />
       </div>
     </div>
   );

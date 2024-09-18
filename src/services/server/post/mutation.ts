@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import {
   deleteBlogRequest,
+  deleteQuestionRequest,
   heartBlogRequest,
   newBlogRequest,
   newQuestionRequest,
@@ -36,5 +37,10 @@ export function useNewQuestion() {
 export function useUpdateQuestion() {
   return useMutation({
     mutationFn: updateQuestionRequest,
+  });
+}
+export function useDeleteQuestion() {
+  return useMutation({
+    mutationFn: deleteQuestionRequest,
   });
 }

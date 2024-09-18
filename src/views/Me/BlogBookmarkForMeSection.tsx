@@ -18,6 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import TimeAgo from "@/components/TimeAgo";
+import { LIMIT } from "@/constants/constants";
 function BlogBookmarkForMeSection() {
   const { clientId } = useAuthStore();
   const router = useRouter()
@@ -30,7 +31,7 @@ function BlogBookmarkForMeSection() {
   const query = {
     userId:clientId,
     search: queryParams.get("search") || undefined,
-    limit: 1,
+    limit: LIMIT.TEN,
     offset: Number(queryParams.get("page")) || 1,
   };
   const { data, refetch } = usePostBookmarkForMe(query);
