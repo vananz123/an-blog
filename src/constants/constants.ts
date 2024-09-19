@@ -7,6 +7,7 @@ export const LIMIT = {
   FIVE: 5,
   SEVEN: 7,
   TEN: 10,
+  FIFITEENT: 15,
 };
 export const POST_TAG = [
   {

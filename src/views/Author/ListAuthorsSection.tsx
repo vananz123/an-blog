@@ -2,6 +2,7 @@
 import Pagination from "@/components/Pagination";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { LIMIT } from "@/constants/constants";
 import useQueryString from "@/services/client/useQueryString ";
 import { useGetAuthors } from "@/services/server/user/queries";
 import { UserPlus } from "lucide-react";
@@ -12,7 +13,7 @@ export default function ListAuthorsSection() {
   const { queryParams, updateQueryParams } = useQueryString();
   const query = {
     search: queryParams.get("search") || undefined,
-    limit: 1,
+    limit: LIMIT.FIFITEENT,
     offset: Number(queryParams.get("page")) || 1,
   };
   const { data } = useGetAuthors(query);
@@ -27,7 +28,7 @@ export default function ListAuthorsSection() {
               <p className="mt-2 mb-4 text-lg font-medium leading-none">
                 Author special
               </p>
-              <div className="grid grid-cols-3">
+              <div className="grid grid-cols-3 gap-3">
                 {authors.map((e) => (
                   <React.Fragment key={e._id}>
                     <div className="h-auto w-full">

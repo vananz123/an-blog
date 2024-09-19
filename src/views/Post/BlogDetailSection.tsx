@@ -97,7 +97,7 @@ const BlogDetailSection = () => {
               ) : (
                 <div className="flex gap-2 mb-3 cursor-pointer">
                   <Heart onClick={() => handleHeart()} />{" "}
-                  <p>{post.blog_heart}</p>
+                  <p>{post.blog_heart_count}</p>
                 </div>
               )}
               <BlogCommentSection blogId={post._id}>
@@ -107,7 +107,7 @@ const BlogDetailSection = () => {
               </BlogCommentSection>
             </div>
           </div>
-          <div className="w-full md:w-[700px]">
+          <div className="w-[450px] sm:w-[500px] md:w-[700px] lg:w-[900px] xl:w-[1100px]">
             <div className="flex justify-between">
               <div className="flex gap-2 items-center">
                 <Link href={`/${user.usr_slug}`}>
