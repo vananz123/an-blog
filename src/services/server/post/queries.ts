@@ -11,11 +11,11 @@ export function useGetQuestion(query: GetBlog) {
       }),
   });
 }
-export function useGetQuestionBySlug(slug: string) {
+export function useGetQuestionBySlug(slug: string, userId?:string) {
   return useQuery({
-    queryKey: ["question", slug],
+    queryKey: ["question", slug, userId],
     queryFn: () =>
-      getQuestionBySlugRequest(slug).then((e) => {
+      getQuestionBySlugRequest(slug,userId).then((e) => {
         return e.data;
       }),
       enabled:!!slug

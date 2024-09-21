@@ -39,13 +39,13 @@ const CardQuestion = ({
             <div className="flex gap-3 col-span-2">
               <div className="flex gap-1">
                 <EyeIcon />
-                <span>12</span>
+                <span>{question.question_reader}</span>
               </div>
               <div className="flex gap-1">
                 <Heart />
-                <span>12</span>
+                <span>{question.question_heart_count}</span>
               </div>
-              <div className="flex gap-1">
+              {/* <div className="flex gap-1">
                 <Bookmark />
                 <span>12</span>
               </div>
@@ -55,7 +55,7 @@ const CardQuestion = ({
               >
                 <MessageCircle />
                 <span>12</span>
-              </div>
+              </div> */}
             </div>
           </div>
         </CardFooter>

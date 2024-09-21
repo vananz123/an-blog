@@ -6,6 +6,9 @@ import { Eye, MessageCircle, UserPlus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
 import { useGetAuthors } from "@/services/server/user/queries";
+import { LIMIT, POST_TAG } from "@/constants/constants";
+import { Badge } from "../ui/badge";
+import useQueryString from "@/services/client/useQueryString ";
 
 const test = Array.from({ length: 5 }).map(
   (_, i, a) => `v1.2.0-beta.${a.length - i}`
@@ -14,10 +17,11 @@ interface Props {
   children: React.ReactNode;
 }
 export default function LeftSide({ children }: Props) {
-  const { data } = useGetAuthors({ limit: 3, offset: 1 });
+  const {createQueryParams} = useQueryString()
+  const { data } = useGetAuthors({ limit: LIMIT.FIVE, offset: 1 });
   const authors = data?.metadata.results;
   return (
-    <section className="grid grid-cols-3 gap-6">
+    <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div className="">
         <div className="sticky top-0">
           <ScrollArea className="h-screen rounded-md border">
@@ -43,7 +47,7 @@ export default function LeftSide({ children }: Props) {
 
               {authors && authors.length > 0 && (
                 <>
-                  <Link href={'/authors'}>
+                  <Link href={"/authors"}>
                     <p className="mt-2 mb-4 text-lg font-medium leading-none">
                       Author special
                     </p>
@@ -65,12 +69,12 @@ export default function LeftSide({ children }: Props) {
                               <AvatarFallback>CN</AvatarFallback>
                             </Avatar>
                           </Link>
-                          <Link  href={`/${e.usr_slug}`}>
+                          <Link href={`/${e.usr_slug}`}>
                             <p>{e.usr_name}</p>
                           </Link>
                         </div>
                         <div className="flex gap-1 items-center mt-1">
-                          <UserPlus size={14}/> 
+                          <UserPlus size={14} />
                           <p className="text-[14px]">{e.usr_follower_count}</p>
                         </div>
                       </div>
@@ -78,11 +82,25 @@ export default function LeftSide({ children }: Props) {
                   ))}
                 </>
               )}
+              <>
+                <p className="mt-4 mb-4 text-lg font-medium leading-none">
+                  Post tag
+                </p>
+                <div className="flex gap-3 flex-wrap">
+                  {POST_TAG.map((e, index) => (
+                    <div key={e.id} onClick={()=>{
+                      createQueryParams({tag:e.value})
+                    }}>
+                      <Badge>{e.text}</Badge>
+                    </div>
+                  ))}
+                </div>
+              </>
             </div>
           </ScrollArea>
         </div>
       </div>
-      <main className="col-span-2">{children}</main>
+      <main className="md:col-span-2">{children}</main>
     </section>
   );
 }

@@ -1,16 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
-import { newCommentForBlogRequest , deleteComment, updateCommentForBlogRequest } from "./api";
-export function useNewCommentBlog(){
+import { newCommentRequest , deleteComment, updateCommentRequest } from "./api";
+export function useNewComment(){
   return useMutation({
-    mutationFn:newCommentForBlogRequest,
+    mutationFn:newCommentRequest,
   })
 }
-export function useUpdateCommentBlog(){
+export function useUpdateComment(){
   return useMutation({
-    mutationFn:updateCommentForBlogRequest,
+    mutationFn:updateCommentRequest,
   })
 }
-export function useDeleteCommentBlog(){
+export function useDeleteComment(){
   return useMutation({
     mutationFn:deleteComment,
   })

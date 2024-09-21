@@ -9,7 +9,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import BlogCommentSection from "../Comment/BlogCommentSection";
+import CommentSection from "../Comment/CommentSection";
 import useAuthStore from "@/services/client/useAuthStore";
 import { useFollow } from "@/services/server/user/mutation";
 import { useBookmarkBlog } from "@/services/server/user/mutation";
@@ -100,11 +100,11 @@ const BlogDetailSection = () => {
                   <p>{post.blog_heart_count}</p>
                 </div>
               )}
-              <BlogCommentSection blogId={post._id}>
+              <CommentSection postId={post._id}>
                 <div className="flex gap-2 mb-3 cursor-pointer">
                   <MessageCircle /> <p>{post.blog_comment}</p>
                 </div>
-              </BlogCommentSection>
+              </CommentSection>
             </div>
           </div>
           <div className="w-[450px] sm:w-[500px] md:w-[700px] lg:w-[900px] xl:w-[1100px]">

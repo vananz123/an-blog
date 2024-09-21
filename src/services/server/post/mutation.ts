@@ -3,6 +3,7 @@ import {
   deleteBlogRequest,
   deleteQuestionRequest,
   heartBlogRequest,
+  heartQuestionRequest,
   newBlogRequest,
   newQuestionRequest,
   updateBlogRequest,
@@ -26,6 +27,11 @@ export function useDeleteBlog() {
 export function useHeartBlog() {
   return useMutation({
     mutationFn: heartBlogRequest,
+  });
+}
+export function useHeartQuestion() {
+  return useMutation({
+    mutationFn: heartQuestionRequest,
   });
 }
 //question

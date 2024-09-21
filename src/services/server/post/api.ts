@@ -46,8 +46,9 @@ export const deleteBlogRequest = ({
   return http.delete<SuccessResponse<any>>("/v1/api/blog", { params });
 };
 
-export const getAllBlogRequest = ({ search, limit, offset }: GetBlog) => {
+export const getAllBlogRequest = ({ tag,search, limit, offset }: GetBlog) => {
   const params = {
+    tag:tag,
     search: search,
     limit: limit,
     offset: offset,
@@ -73,6 +74,18 @@ export const heartBlogRequest = ({
   return http.post<SuccessResponse<any>>("/v1/api/blog/heart", {
     userId,
     blogId,
+  });
+};
+export const heartQuestionRequest = ({
+  userId,
+  questionId,
+}: {
+  userId: string;
+  questionId: string;
+}) => {
+  return http.post<SuccessResponse<any>>("/v1/api/question/heart", {
+    userId,
+    questionId,
   });
 };
 //question
@@ -110,8 +123,9 @@ export const deleteQuestionRequest = ({
   };
   return http.delete<SuccessResponse<any>>("/v1/api/question", { params });
 };
-export const getAllQuestionRequest = ({ search, limit, offset }: GetBlog) => {
+export const getAllQuestionRequest = ({ tag, search, limit, offset }: GetBlog) => {
   const params = {
+    tag:tag,
     search: search,
     limit: limit,
     offset: offset,
@@ -120,8 +134,8 @@ export const getAllQuestionRequest = ({ search, limit, offset }: GetBlog) => {
     params,
   });
 };
-export const getQuestionBySlugRequest = (slug: string) => {
-  return http.get<SuccessResponse<QuestionResulf>>(`/v1/api/question/${slug}`);
+export const getQuestionBySlugRequest = (slug: string,userId?:string) => {
+  return http.get<SuccessResponse<QuestionResulf>>(`/v1/api/question/${slug}`,{params:{userId:userId}});
 };
 export const getQuestionByIdRequest = (id: string) => {
   return http.get<SuccessResponse<QuestionResulf>>(

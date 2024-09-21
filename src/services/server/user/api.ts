@@ -16,6 +16,18 @@ export const bookmartBlogRequest = ({
     blogId,
   });
 };
+export const bookmartQuestionRequest = ({
+  userId,
+  questionId,
+}: {
+  userId: string;
+  questionId: string;
+}) => {
+  return http.post<SuccessResponse<any>>("/v1/api/me/question/bookmark", {
+    userId,
+    questionId,
+  });
+};
 export const followRequest = async ({
   userId,
   userIdFollow,

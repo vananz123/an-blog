@@ -1,4 +1,5 @@
-export interface NewCommentForBlog {
+export interface NewComment {
+  type?:'blog' | 'question',
   userId:string;
   blogId:string;
   content:string;
@@ -11,8 +12,11 @@ export interface CommentResufl {
   comment_left:number;
   comment_right:string;
   comment_parentId:string | null;
+  comment_replies:any[];
+  created_at:string;
 }
 export interface GetCommentBlog {
+  type?:'blog' | 'question',
   blogId?: string;
   parentId?:string;
   limit?: number;

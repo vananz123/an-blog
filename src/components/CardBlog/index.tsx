@@ -47,7 +47,7 @@ const CardBlog = ({
               </div>
             </Link>
             <div className="flex justify-between gap-2">
-              <div className="flex gap-1"><Heart /> <p>{post.blog_heart.length}</p> </div>
+              <div className="flex gap-1"><Heart /> <p>{post.blog_heart_count}</p> </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Ellipsis className="cursor-pointer" />
@@ -61,7 +61,7 @@ const CardBlog = ({
           </div>
         </CardHeader>
         <CardContent>
-          <div className="h-auto grid grid-cols-3 items-start gap-3">
+          <div className="h-auto grid grid-cols-1 sm:grid-cols-3 items-start gap-3">
             <div className="h-[125px] overflow-hidden text-ellipsis px-2 col-span-2">
               <Link href={link}>
                 <p className="text-[18px] font-bold">{post.blog_title}</p>
@@ -69,7 +69,7 @@ const CardBlog = ({
               {post.blog_tag.length > 0 &&
                 post.blog_tag.map((e, index) => <Badge key={index}>{e}</Badge>)}
             </div>
-            <div className="">
+            <div className="hidden sm:block">
               <Link href={link}>
                 <Image
                   className="object-fill h-[125px] rounded"

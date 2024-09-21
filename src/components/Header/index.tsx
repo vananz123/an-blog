@@ -106,7 +106,7 @@ export default function Header() {
         <div>Logo</div>
         <Nav />
         <div className="flex gap-6">
-          <div className="flex w-full max-w-sm items-center space-x-2">
+          <div className="hidden sm:flex w-full max-w-sm items-center space-x-2">
             <Input type="text" value={searchValue} onChange={(value)=>{
               setSearchValue(value.target.value)
             }} placeholder="Search" />

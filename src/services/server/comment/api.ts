@@ -1,30 +1,32 @@
 import http from "@/lib/axios";
-import { CommentResufl, GetCommentBlog, NewCommentForBlog } from "./type";
+import { CommentResufl, GetCommentBlog, NewComment } from "./type";
 import SuccessResponse from "@/types/success.response.type";
-export const newCommentForBlogRequest = ({
+export const newCommentRequest = ({
+  type='blog',
   userId,
   blogId,
   content,
   parentId = null,
-}: NewCommentForBlog) => {
-  return http.post<SuccessResponse<any>>("/v1/api/comment", {
+}: NewComment) => {
+  return http.post<SuccessResponse<any>>(`/v1/api/comment?type=${type}`, {
     userId,
     blogId,
     content,
     parentId,
   });
 };
-
-export const updateCommentForBlogRequest = ({
+export const updateCommentRequest = ({
+  type='blog',
   commentId,
   content
-}: {commentId:string,content:string}) => {
-  return http.patch<SuccessResponse<any>>("/v1/api/comment", {
+}: {commentId:string,content:string, type?:"blog"| "question"}) => {
+  return http.patch<SuccessResponse<any>>(`/v1/api/comment?type=${type}`, {
     commentId,
     content
   });
 };
-export const getCommentByBlogId = ({
+export const getComment = ({
+  type='blog',
   blogId,
   parentId,
   limit = 10,
@@ -36,22 +38,24 @@ export const getCommentByBlogId = ({
     limit: limit,
     offset: offset,
   };
-  return http.get<SuccessResponse<CommentResufl[]>>("/v1/api/comment", {
+  return http.get<SuccessResponse<CommentResufl[]>>(`/v1/api/comment?type=${type}`, {
     params: params,
   });
 };
 export const deleteComment = ({
+  type='blog',
   blogId,
   commentId,
 }: {
   blogId: string;
   commentId: string;
+  type?:"blog"| "question";
 }) => {
   const params = {
     blogId: blogId,
     commentId: commentId,
   };
-  return http.delete<SuccessResponse<CommentResufl>>("/v1/api/comment", {
+  return http.delete<SuccessResponse<CommentResufl>>(`/v1/api/comment?type=${type}`, {
     params: params,
   });
 };

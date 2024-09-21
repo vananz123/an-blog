@@ -11,12 +11,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 import CommentSchema, { CommentType } from "@/types/commet.type";
+import { Loader2 } from "lucide-react";
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
 interface Props {
+  isLoading?: boolean;
   data?: CommentType;
+  onCancel?: () => void;
   submit: (values: CommentType) => void;
 }
-export default function CommentForm({ data, submit }: Props) {
+export default function CommentForm({
+  isLoading = false,
+  data,
+  onCancel,
+  submit,
+}: Props) {
   const form = useForm<CommentType>({
     resolver: zodResolver(CommentSchema),
     values: data,
@@ -24,6 +32,9 @@ export default function CommentForm({ data, submit }: Props) {
   const {
     formState: { errors },
   } = form;
+  // function onCancel() {
+  //   alert('dsfds')
+  // }
   return (
     <>
       <Form {...form}>
@@ -34,15 +45,39 @@ export default function CommentForm({ data, submit }: Props) {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Editor height="auto" fieldName="content" type="minimal" form={form} />
+                  <Editor
+                    height="auto"
+                    fieldName="content"
+                    type="minimal"
+                    form={form}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-3">
+            <Button
+              className="block"
+              onClick={() => {
+                form.resetField("content");
+                if (typeof onCancel !== "undefined") {
+                  onCancel()
+                };
+              }}
+              type="button"
+            >
+              Cannel
+            </Button>
             <Button className="block" type="submit">
-              Comment
+              {isLoading == true ? (
+                <div className="flex">
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <span>Comment</span>
+                </div>
+              ) : (
+                "Comment"
+              )}
             </Button>
           </div>
         </form>

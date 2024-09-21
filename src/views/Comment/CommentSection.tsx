@@ -8,28 +8,32 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import useAuthStore from "@/services/client/useAuthStore";
-import { useNewCommentBlog } from "@/services/server/comment/mutation";
-import { useGetCommentBlog } from "@/services/server/comment/queries";
+import { useNewComment } from "@/services/server/comment/mutation";
+import { useGetComment } from "@/services/server/comment/queries";
 import { CommentType } from "@/types/commet.type";
 import { Fragment, ReactNode } from "react";
 interface Props {
-  blogId: string;
+  postType?: "blog" | "question";
+  postId: string;
   children: ReactNode;
 }
 import { useImmer } from "use-immer";
 import CommentCard from "@/components/CommentCard";
-function BlogCommentSection({ blogId, children }: Props) {
-  const { data, refetch } = useGetCommentBlog({ blogId: blogId });
+import Link from "next/link";
+function CommentSection({ postType, postId, children }: Props) {
+  const { data, refetch } = useGetComment({ type: postType, blogId: postId });
   const comments = data?.metadata;
   const { clientId } = useAuthStore();
-  const comment = useNewCommentBlog();
+  const comment = useNewComment();
+  console.log(data);
   function onSubmit(values: CommentType) {
     console.log(values);
     if (clientId) {
       comment
         .mutateAsync({
+          type: postType,
           userId: clientId,
-          blogId: blogId,
+          blogId: postId,
           content: values.content,
           parentId: null,
         })
@@ -43,8 +47,8 @@ function BlogCommentSection({ blogId, children }: Props) {
     _id: string;
     content: string;
   }>({ show: false, _id: "", content: "" });
-  const { data: dataReplay, refetch: refetchReplay } = useGetCommentBlog({
-    blogId: blogId,
+  const { data: dataReplay, refetch: refetchReplay } = useGetComment({
+    blogId: postId,
     parentId: commentReplay._id,
   });
   const commentReplaies = dataReplay?.metadata;
@@ -54,12 +58,18 @@ function BlogCommentSection({ blogId, children }: Props) {
         <SheetTrigger asChild>{children}</SheetTrigger>
         <SheetContent className="sm:max-w-[640px] overflow-auto">
           <SheetHeader>
-            <SheetTitle>Comment</SheetTitle>
-            <SheetDescription>
-              <div className="mb-3">
-                <CommentForm submit={onSubmit} />
-              </div>
-            </SheetDescription>
+            {clientId != '' ? (
+              <>
+                <SheetTitle>Comment</SheetTitle>
+                <SheetDescription>
+                  <div className="mb-3">
+                    <CommentForm isLoading={comment.isPending} submit={onSubmit} />
+                  </div>
+                </SheetDescription>
+              </>
+            ):(
+              <Link className="my-5 text-center" href={'/login'}>Please login to comment</Link>
+            )}
             {comments ? (
               <>
                 {comments.length > 0 ? (
@@ -67,11 +77,13 @@ function BlogCommentSection({ blogId, children }: Props) {
                     <Fragment key={e._id}>
                       <CommentCard
                         data={e}
-                        blogId={blogId}
+                        postType={postType}
+                        blogId={postId}
                         refetch={refetch}
                         refetchReplay={refetchReplay}
                       />
-                      {commentReplay.show == true &&
+                      {commentReplay._id == e._id &&
+                        commentReplay.show == true &&
                         commentReplaies &&
                         commentReplaies.length > 0 &&
                         commentReplaies.map((k) => (
@@ -80,28 +92,30 @@ function BlogCommentSection({ blogId, children }: Props) {
                             <div className="w-full">
                               <CommentCard
                                 data={k}
-                                blogId={blogId}
+                                blogId={postId}
                                 refetch={refetch}
                                 refetchReplay={refetchReplay}
                               />
                             </div>
                           </div>
                         ))}
-                      <div
-                        className="text-sm text-cyan-500 cursor-pointer"
-                        onClick={() => {
-                          setCommentReplay((draft) => {
-                            const newShow = !commentReplay.show;
-                            draft.show = newShow;
-                            if (newShow == true) {
-                              draft._id = e._id;
-                              refetchReplay();
-                            }
-                          });
-                        }}
-                      >
-                        show answer
-                      </div>
+                      {e.comment_replies.length > 0 && (
+                        <div
+                          className="text-sm text-cyan-500 cursor-pointer"
+                          onClick={() => {
+                            setCommentReplay((draft) => {
+                              const newShow = !commentReplay.show;
+                              draft.show = newShow;
+                              if (newShow == true) {
+                                draft._id = e._id;
+                                refetchReplay();
+                              }
+                            });
+                          }}
+                        >
+                          {e.comment_replies.length} answer
+                        </div>
+                      )}
                     </Fragment>
                   ))
                 ) : (
@@ -118,4 +132,4 @@ function BlogCommentSection({ blogId, children }: Props) {
   );
 }
 
-export default BlogCommentSection;
+export default CommentSection;

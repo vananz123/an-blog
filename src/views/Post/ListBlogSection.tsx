@@ -10,6 +10,7 @@ import { GetBlog } from "@/services/server/post/type";
 const ListBlogSection = () => {
   const { queryParams, updateQueryParams } = useQueryString();
   const query: GetBlog = {
+    tag: queryParams.get("tag") || undefined,
     search: queryParams.get("search") || undefined,
     limit: LIMIT.TEN,
     offset: Number(queryParams.get("page")) || 1,
@@ -19,6 +20,16 @@ const ListBlogSection = () => {
   const paginated = data?.metadata;
   return (
     <div>
+      {query.tag && <p className="text-[30px] font-bold mb-10">{query.tag}</p>}
+      {query.search && (
+        <>
+          <p className="text-[30px] font-bold mb-3">Search</p>
+          <p className="mb-10">{query.search}</p>
+        </>
+      )}
+      {!query.tag && !query.search && (
+        <p className="text-[30px] font-bold mb-10">Blog special</p>
+      )}
       {posts && paginated ? (
         <>
           {posts.length > 0 ? (

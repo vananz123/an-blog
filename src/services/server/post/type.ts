@@ -16,6 +16,7 @@ export interface NewQuestion {
   };
 }
 export interface GetBlog {
+  tag?:string;
   search?: string;
   limit: number;
   offset: number;
@@ -29,7 +30,6 @@ export interface BlogResult extends Timestamps{
   blog_thumb: string;
   blog_userId: User;
   blog_bookmark: number;
-  blog_heart: [];
   blog_heart_count:number;
   blog_heart_check:boolean;
   blog_reader: number;
@@ -43,7 +43,10 @@ export interface QuestionResulf extends Timestamps {
   question_slug: string;
   question_title: string;
   question_userId: User;
-  question_heart: number;
+  question_heart_check:boolean;
+  question_bookmark_check:boolean;
+  question_heart_count: number;
+  question_comment:number;
   question_reader: number;
 }
 import SuccessResponse from "@/types/success.response.type";

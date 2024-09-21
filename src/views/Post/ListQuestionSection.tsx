@@ -10,6 +10,7 @@ import { GetBlog } from "@/services/server/post/type";
 export default function ListQuestionSection() {
   const { queryParams, updateQueryParams } = useQueryString();
   const query: GetBlog = {
+    tag:queryParams.get('tag') || undefined,
     search: queryParams.get("search") || undefined,
     limit: LIMIT.TEN,
     offset: Number(queryParams.get("page")) || 1,
@@ -19,6 +20,16 @@ export default function ListQuestionSection() {
   const paginated = data?.metadata;
   return (
     <div className="gap-4">
+      {query.tag && <p className="text-[30px] font-bold mb-10">{query.tag}</p>}
+      {query.search && (
+        <>
+          <p className="text-[30px] font-bold mb-3">Search</p>
+          <p className="mb-10">{query.search}</p>
+        </>
+      )}
+      {!query.tag && !query.search && (
+        <p className="text-[30px] font-bold mb-10">Question special</p>
+      )}
       {question && paginated ? (
         <>
           {question.length > 0 ? (
