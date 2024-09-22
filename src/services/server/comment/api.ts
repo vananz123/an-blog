@@ -26,9 +26,9 @@ export const updateCommentRequest = ({
   });
 };
 export const getComment = ({
-  type='blog',
+  type,
   blogId,
-  parentId,
+  parentId = null,
   limit = 10,
   offset = 1,
 }: GetCommentBlog) => {

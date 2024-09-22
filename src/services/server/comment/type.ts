@@ -12,13 +12,13 @@ export interface CommentResufl {
   comment_left:number;
   comment_right:string;
   comment_parentId:string | null;
-  comment_replies:any[];
+  comment_replies?:any[];
   created_at:string;
 }
 export interface GetCommentBlog {
-  type?:'blog' | 'question',
+  type:'blog' | 'question',
   blogId?: string;
-  parentId?:string;
+  parentId?:string | null;
   limit?: number;
   offset?: number;
 }

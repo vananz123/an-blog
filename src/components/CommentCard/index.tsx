@@ -101,7 +101,7 @@ function CommentCard({
         user={user}
       ></Avatar>
       <p
-        className="mt-3"
+        className="mt-3 not-tailwind w-full text-left"
         dangerouslySetInnerHTML={{ __html: data.comment_content }}
       ></p>
       <div className="flex justify-between mt-3">

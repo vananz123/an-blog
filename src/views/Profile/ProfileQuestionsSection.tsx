@@ -9,7 +9,7 @@ import {
 import useAuthStore from "@/services/client/useAuthStore";
 import Image from "next/image";
 import Link from "next/link";
-import { BlogResult } from "@/services/server/post/type";
+import { BlogResult, QuestionResulf } from "@/services/server/post/type";
 import { useParams, useRouter } from "next/navigation";
 import useQueryString from "@/services/client/useQueryString ";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -18,19 +18,20 @@ import { LIMIT } from "@/constants/constants";
 import { usePostsByUserSlug } from "@/services/server/profile/queries";
 import { GetPostsByUserSlugRequest } from "@/services/server/profile/type";
 import TimeAgo from "@/components/TimeAgo";
-import { Heart } from "lucide-react";
-function ProfileBlogsSection() {
+import { EyeIcon, Heart } from "lucide-react";
+function ProfileQuestionsSection() {
   const { slug } = useParams();
   const { clientId } = useAuthStore();
   const { queryParams, updateQueryParams } = useQueryString();
   const query: GetPostsByUserSlugRequest = {
+    postType: "question",
     slug: slug as string,
     search: queryParams.get("search") || undefined,
     limit: LIMIT.TEN,
     offset: Number(queryParams.get("page")) || 1,
   };
   const { data, refetch } = usePostsByUserSlug(query);
-  const posts = data?.metadata.results as BlogResult[];
+  const posts = data?.metadata.results as QuestionResulf[];
   const paginated = data?.metadata;
   return (
     <div>
@@ -38,41 +39,30 @@ function ProfileBlogsSection() {
         posts.length > 0 ? (
           <>
             {posts.map((post) => (
-              <Card key={post._id} className="mb-3">
-                <div className="mt-5" />
-                <CardContent>
-                  <div className="h-auto grid grid-cols-3 items-start gap-3">
-                    <div className="h-[125px] overflow-hidden text-ellipsis px-2 col-span-2">
-                      <Link href={`/blog/${post.blog_slug}`}>
-                        <p className="text-[18px] font-bold">
-                          {post.blog_title}
-                        </p>
-                      </Link>
-                      {post.blog_tag.map((e: string, index: number) => (
-                        <Badge key={index}>{e}</Badge>
-                      ))}
-                    </div>
-                    <div className="">
-                      <Link href={`/blog/${post.blog_slug}`}>
-                        <Image
-                          className="object-fill h-[125px] rounded"
-                          src={"/test.png"}
-                          alt="test thumbv"
-                          width={200}
-                          height={110}
-                        />
-                      </Link>
-                    </div>
-                  </div>
-                </CardContent>
+              <Card key={post._id}>
+                <div className="mt-5"/>
+                <Link href={`/question/${post.question_slug}`}>
+                  <CardContent>
+                    <p>{post.question_title}</p>
+                    {post.question_tag && post.question_tag.length > 0 && (
+                      <Badge>{post.question_tag[0]}</Badge>
+                    )}
+                  </CardContent>
+                </Link>
                 <CardFooter>
                   <div className="w-full flex justify-between">
                     <div>
-                      <TimeAgo timestamp={post.created_at} />
+                      <TimeAgo timestamp={post.created_at}/>
                     </div>
-                    <div className="flex gap-1">
-                      <Heart />
-                      <span>{post.blog_heart_count}</span>
+                    <div className="flex gap-3">
+                      <div className="flex gap-1">
+                        <EyeIcon />
+                        <span>{post.question_reader}</span>
+                      </div>
+                      <div className="flex gap-1">
+                        <Heart />
+                        <span>{post.question_heart_count}</span>
+                      </div>
                     </div>
                   </div>
                 </CardFooter>
@@ -100,4 +90,4 @@ function ProfileBlogsSection() {
   );
 }
 
-export default ProfileBlogsSection;
+export default ProfileQuestionsSection;

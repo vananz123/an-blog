@@ -21,13 +21,11 @@ import { useImmer } from "use-immer";
 import CommentCard from "@/components/CommentCard";
 import Link from "next/link";
 function CommentSection({ postType, postId, children }: Props) {
-  const { data, refetch } = useGetComment({ type: postType, blogId: postId });
+  const { data, refetch } = useGetComment({ type: postType || 'blog', blogId: postId });
   const comments = data?.metadata;
   const { clientId } = useAuthStore();
   const comment = useNewComment();
-  console.log(data);
   function onSubmit(values: CommentType) {
-    console.log(values);
     if (clientId) {
       comment
         .mutateAsync({
@@ -48,6 +46,7 @@ function CommentSection({ postType, postId, children }: Props) {
     content: string;
   }>({ show: false, _id: "", content: "" });
   const { data: dataReplay, refetch: refetchReplay } = useGetComment({
+    type:postType || 'blog',
     blogId: postId,
     parentId: commentReplay._id,
   });
@@ -56,7 +55,7 @@ function CommentSection({ postType, postId, children }: Props) {
     <div>
       <Sheet>
         <SheetTrigger asChild>{children}</SheetTrigger>
-        <SheetContent className="sm:max-w-[640px] overflow-auto">
+        <SheetContent className="w-full sm:max-w-[640px] overflow-auto">
           <SheetHeader>
             {clientId != '' ? (
               <>
@@ -99,9 +98,9 @@ function CommentSection({ postType, postId, children }: Props) {
                             </div>
                           </div>
                         ))}
-                      {e.comment_replies.length > 0 && (
+                      {e.comment_replies && e.comment_replies.length > 0 && (
                         <div
-                          className="text-sm text-cyan-500 cursor-pointer"
+                          className="w-full text-left text-sm text-cyan-500 cursor-pointer"
                           onClick={() => {
                             setCommentReplay((draft) => {
                               const newShow = !commentReplay.show;

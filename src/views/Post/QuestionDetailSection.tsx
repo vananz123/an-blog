@@ -16,7 +16,6 @@ import useAuthStore from "@/services/client/useAuthStore";
 import CommentSection from "../Comment/CommentSection";
 const QuestionDetailSection = () => {
   const { clientId } = useAuthStore();
-  const [showAnswers, setShowAnswers] = useImmer(false);
   const { slug } = useParams();
   const { data, refetch } = useGetQuestionBySlug(slug as string, clientId);
   const question = data?.metadata;

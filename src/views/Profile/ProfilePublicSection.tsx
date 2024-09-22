@@ -91,12 +91,21 @@ function ProfilePublicSection() {
                 </div>
               </div>
             </div>
-            {!user.usr_follower_check ? (
-              <Button onClick={() => handleFollow()}><Plus /> Follow</Button>
-            ) : (
-              <Button className='text-blue-500' onClick={() => handleFollow()}>
-                Following
-              </Button>
+            {clientId != user._id && (
+              <>
+                {!user.usr_follower_check ? (
+                  <Button onClick={() => handleFollow()}>
+                    <Plus /> Follow
+                  </Button>
+                ) : (
+                  <Button
+                    className="text-blue-500"
+                    onClick={() => handleFollow()}
+                  >
+                    Following
+                  </Button>
+                )}
+              </>
             )}
           </div>
           <p className="my-2 text-sm">Follower: {user.usr_follower_count}</p>

@@ -60,7 +60,6 @@ const BlogDetailSection = () => {
         });
     }
   };
-
   const heart = useHeartBlog();
   const handleHeart = async () => {
     if (clientId && post) {
@@ -83,23 +82,15 @@ const BlogDetailSection = () => {
     <div className="w-full grid justify-items-center relative">
       {post && user && (
         <>
-          <div className="absolute top-0 left-0">
-            <p className="font-bold mb-3">{user.usr_name}</p>
+          <div className="hidden lg:block absolute top-0 left-0">
             <div>
-              {post.blog_heart_check ? (
-                <div className="flex gap-2 mb-3 cursor-pointer">
-                  <Heart
-                    onClick={() => handleHeart()}
-                    className="text-red-500"
-                  />{" "}
-                  <p>{post.blog_heart_count}</p>
-                </div>
-              ) : (
-                <div className="flex gap-2 mb-3 cursor-pointer">
-                  <Heart onClick={() => handleHeart()} />{" "}
-                  <p>{post.blog_heart_count}</p>
-                </div>
-              )}
+              <div className="flex gap-2 mb-3 cursor-pointer">
+                <Heart
+                  onClick={() => handleHeart()}
+                  className={`${post.blog_heart_check && "text-red-500"}`}
+                />
+                <p>{post.blog_heart_count}</p>
+              </div>
               <CommentSection postId={post._id}>
                 <div className="flex gap-2 mb-3 cursor-pointer">
                   <MessageCircle /> <p>{post.blog_comment}</p>
@@ -107,7 +98,23 @@ const BlogDetailSection = () => {
               </CommentSection>
             </div>
           </div>
-          <div className="w-[450px] sm:w-[500px] md:w-[700px] lg:w-[900px] xl:w-[1100px]">
+          <div className="bottom-0 left-0 fixed lg:hidden w-full bg-neutral-400">
+            <div className="flex p-2">
+              <div className="flex gap-2 cursor-pointer">
+                <Heart
+                  onClick={() => handleHeart()}
+                  className={`${post.blog_heart_check && "text-red-500"}`}
+                />
+                <p>{post.blog_heart_count}</p>
+              </div>
+              <CommentSection postId={post._id}>
+                <div className="flex gap-2 cursor-pointer">
+                  <MessageCircle /> <p>{post.blog_comment}</p>
+                </div>
+              </CommentSection>
+            </div>
+          </div>
+          <div className="w-full lg:w-[830px] xl:w-[1000px]">
             <div className="flex justify-between">
               <div className="flex gap-2 items-center">
                 <Link href={`/${user.usr_slug}`}>
@@ -138,8 +145,8 @@ const BlogDetailSection = () => {
                     )} */}
                   </div>
                   <div className="text-[14px]">
-                    <TimeAgo className="mr-2" timestamp={post.created_at}/>
-                    <ReadingTime content={post.blog_body}/>
+                    <TimeAgo className="mr-2" timestamp={post.created_at} />
+                    <ReadingTime content={post.blog_body} />
                   </div>
                 </div>
               </div>

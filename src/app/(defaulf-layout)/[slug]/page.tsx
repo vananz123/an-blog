@@ -2,6 +2,7 @@ import ProfilePublicSection from "@/views/Profile/ProfilePublicSection";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileBlogsSection from "@/views/Profile/ProfileBlogsSection";
+import ProfileQuestionsSection from "@/views/Profile/ProfileQuestionsSection";
 const ListTabs = [
   {
     id: 1,
@@ -13,7 +14,7 @@ const ListTabs = [
     id: 2,
     value: "questions",
     text: "Question",
-    content: "this this all questions",
+    content: <ProfileQuestionsSection/> ,
   },
   {
     id: 3,
